@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Foodvourite</title>
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./styles/index.css">
+</head>
+<body>
+
+	<div ng-app="foodvouriteApp" ng-controller="mainCtrl">
+
+		<div class="header">
+			Best Food App
+		</div>
+
+		<div class="favourites">
+			<div class="favourites--header">
+				<div class="favourites--header--text">
+					<h4 class="favourites--header--text--title"> Favourites </h4>
+					<div class="favourites--header--text--tagLine">Enjoy what you have been ordering!</div>
+				</div>
+				<div class="cart" ng-bind="getCount()">
+				</div>
+			</div>
+
+			<div class="favourites--body">
+				<div class="product" ng-repeat="product in responseData.recipes" ng-if="product.isFavourite  && searchProducts(product)">
+					<img ng-src="{{product.image}}" alt="{{product.name}}">
+					<div class="product--details">
+						<div class="product--details--text">
+							<div class="product--title">{{product.name}}</div>
+							<div class="product--price">₹{{product.price}}</div>
+						</div>
+						<button ng-click="addToCart(product)">REORDER</button>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<hr/>
+		<div class="categories">
+			<div class="searchContainer">
+				<input type="text" ng-model="searchProduct" ng-keypress="" placeholder="Search for a particular dish or ingredient">
+			</div>
+			<div class="categories--header">
+				<div class="categories--header--title">
+					SELECT CATEGORIES
+				</div>
+				<div class="categories--header--filter">
+					Filter
+				</div>
+			</div>
+			<div class="categories--tab" id="categoryTab" ng-class="{'fixed': isCategoryTabReachedTop}">
+				<div class="category" ng-repeat="category in responseData.categories" ng-class="{'active': selectedCategory == category.name}" ng-click="selectCategory(category.name)">
+					<img src="{{category.image}}">
+					<span>{{category.name}}</span>
+				</div>
+			</div>
+			<div class="categories--products">
+				<div class="product" ng-repeat="product in responseData.recipes" ng-if="isCategorySelected(product.category) && searchProducts(product)">
+					<img ng-src="{{product.image}}" alt="{{product.name}}">
+					<div class="product--details">
+						<div class="product--details--text">
+							<div class="product--title">{{product.name}}</div>
+							<div class="product--price">₹{{product.price}}</div>
+						</div>
+						<button ng-click="addToCart(product)">ADD TO BAG</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<script type="text/javascript" src="./scripts/index.js"></script>
+</body>
+</html>
